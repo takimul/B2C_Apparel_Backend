@@ -1,0 +1,326 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | ENUMS
+ * |--------------------------------------------------------------------------
+ */
+
+enum AdminRole {
+    ADMIN
+    SUPER_ADMIN
+}
+
+enum ProductStatus {
+    DRAFT
+    ACTIVE
+    ARCHIVED
+}
+
+enum InquiryStatus {
+    NEW
+    CONTACTED
+    PROCESSING
+    COMPLETED
+    CANCELLED
+}
+
+enum CustomizationOption {
+    YES
+    NO
+    AVAILABLE_ON_REQUEST
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | ADMIN
+ * |--------------------------------------------------------------------------
+ */
+
+model Admin {
+    id           String    @id @default(cuid())
+    name         String
+    email        String    @unique
+    passwordHash String
+    role         AdminRole @default(ADMIN)
+    isActive     Boolean   @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([email])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | CATEGORY
+ * |--------------------------------------------------------------------------
+ */
+
+model Category {
+    id          String  @id @default(cuid())
+    name        String
+    slug        String  @unique
+    description String?
+    imageUrl    String?
+    isActive    Boolean @default(true)
+    sortOrder   Int     @default(0)
+
+    parentId String?
+    parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+    children Category[] @relation("CategoryHierarchy")
+
+    products Product[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([parentId])
+    @@index([isActive])
+    @@index([sortOrder])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | PRODUCT
+ * |--------------------------------------------------------------------------
+ */
+
+model Product {
+    id          String        @id @default(cuid())
+    name        String
+    slug        String        @unique
+    description String?
+    status      ProductStatus @default(DRAFT)
+
+    categoryId String
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+    /**
+     * | Product specifications
+     */
+
+    fabric      String?
+    gsm         Int?
+    composition String?
+    washingInfo String?
+
+    /**
+     * | Available options
+     */
+
+    sizes  String[]
+    colors String[]
+
+    /**
+     * | Wholesale information
+     */
+
+    moq Int
+
+    customization CustomizationOption @default(AVAILABLE_ON_REQUEST)
+
+    /**
+     * | Manufacturing details
+     */
+
+    customFabric     Boolean @default(false)
+    customColor      Boolean @default(false)
+    customPrinting   Boolean @default(false)
+    customEmbroidery Boolean @default(false)
+    customNeckLabel  Boolean @default(false)
+    customPackaging  Boolean @default(false)
+
+    /**
+     * | Homepage / display
+     */
+
+    isFeatured Boolean @default(false)
+
+    images      ProductImage[]
+    bannerItems HomepageBannerProduct[]
+    inquiries   Inquiry[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([categoryId])
+    @@index([status])
+    @@index([isFeatured])
+    @@index([createdAt])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | PRODUCT IMAGES
+ * |--------------------------------------------------------------------------
+ */
+
+model ProductImage {
+    id        String  @id @default(cuid())
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    url      String
+    publicId String
+    altText  String?
+
+    sortOrder Int     @default(0)
+    isPrimary Boolean @default(false)
+
+    createdAt DateTime @default(now())
+
+    @@index([productId])
+    @@index([productId, sortOrder])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | HOMEPAGE BANNER PRODUCTS
+ * |--------------------------------------------------------------------------
+ * |
+ * | Admin can select products that should appear in the homepage hero/banner.
+ * |
+ */
+
+model HomepageBannerProduct {
+    id        String  @id @default(cuid())
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    sortOrder Int     @default(0)
+    isActive  Boolean @default(true)
+
+    createdAt DateTime @default(now())
+
+    @@unique([productId])
+    @@index([sortOrder])
+    @@index([isActive])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | INQUIRIES
+ * |--------------------------------------------------------------------------
+ */
+
+model Inquiry {
+    id String @id @default(cuid())
+
+    /**
+     * | Product can be null because users may submit
+     * | general OEM / ODM inquiries.
+     */
+
+    productId String?
+    product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+    /**
+     * | Customer information
+     */
+
+    name        String
+    companyName String?
+    email       String
+    phone       String
+    country     String?
+
+    /**
+     * | Inquiry information
+     */
+
+    quantity       Int?
+    customBranding Boolean @default(false)
+
+    message String?
+
+    status InquiryStatus @default(NEW)
+
+    /**
+     * | Admin notes
+     */
+
+    adminNotes String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([productId])
+    @@index([status])
+    @@index([email])
+    @@index([createdAt])
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | ABOUT PAGE
+ * |--------------------------------------------------------------------------
+ */
+
+model AboutPage {
+    id String @id @default("default")
+
+    title       String
+    description String
+
+    story        String?
+    mission      String?
+    capabilities String?
+    exportInfo   String?
+    whyChooseUs  String?
+
+    imageUrl      String?
+    imagePublicId String?
+
+    updatedAt DateTime @updatedAt
+}
+
+/**
+ * |--------------------------------------------------------------------------
+ * | SITE SETTINGS
+ * |--------------------------------------------------------------------------
+ */
+
+model SiteSettings {
+    id String @id @default("default")
+
+    siteName String @default("Verigo Essential")
+
+    tagline String @default("Premium Apparel & Authentic Beauty")
+
+    logoUrl      String?
+    logoPublicId String?
+
+    /**
+     * | Contact
+     */
+
+    email    String?
+    phone    String?
+    whatsapp String?
+    address  String?
+
+    /**
+     * | Social media
+     */
+
+    facebook  String?
+    instagram String?
+    linkedin  String?
+    youtube   String?
+
+    /**
+     * | Homepage announcement
+     */
+
+    announcementText String?
+
+    updatedAt DateTime @updatedAt
+}
