@@ -140,79 +140,171 @@ export const createProduct = async (data: CreateProductInput) => {
 
 interface GetProductsOptions {
   categoryId?: string;
-  status?: "DRAFT" | "ACTIVE" | "ARCHIVED";
   featured?: boolean;
   search?: string;
 }
 
-export const getProducts = async (options: GetProductsOptions = {}) => {
-  const { categoryId, status, featured, search } = options;
+export const getProducts = async ({
+  categoryId,
+  featured,
+  search,
+  page = 1,
+  limit = 20,
+}: {
+  categoryId?: string;
+  featured?: boolean;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) => {
+  const skip = (page - 1) * limit;
 
-  return prisma.product.findMany({
-    where: {
-      ...(categoryId
-        ? {
-            categoryId,
-          }
-        : {}),
+  const where = {
+    status: "ACTIVE" as const,
 
-      ...(status
-        ? {
-            status,
-          }
-        : {}),
+    ...(categoryId
+      ? {
+          categoryId,
+        }
+      : {}),
 
-      ...(featured !== undefined
-        ? {
-            isFeatured: featured,
-          }
-        : {}),
+    ...(featured !== undefined
+      ? {
+          isFeatured: featured,
+        }
+      : {}),
 
-      ...(search
-        ? {
-            OR: [
-              {
-                name: {
-                  contains: search,
-                  mode: "insensitive",
-                },
+    ...(search
+      ? {
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: "insensitive" as const,
               },
-              {
-                description: {
-                  contains: search,
-                  mode: "insensitive",
-                },
+            },
+            {
+              slug: {
+                contains: search,
+                mode: "insensitive" as const,
               },
-            ],
-          }
-        : {}),
-    },
+            },
+            {
+              description: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+          ],
+        }
+      : {}),
+  };
 
-    orderBy: {
-      createdAt: "desc",
-    },
+  const [products, total] = await prisma.$transaction([
+    prisma.product.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        status: true,
+        fabric: true,
+        gsm: true,
+        composition: true,
+        washingInfo: true,
+        sizes: true,
+        colors: true,
+        moq: true,
+        customization: true,
+        customFabric: true,
+        customColor: true,
+        customPrinting: true,
+        customEmbroidery: true,
+        customNeckLabel: true,
+        customPackaging: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
 
-    include: {
-      category: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+
+        images: {
+          orderBy: {
+            sortOrder: "asc",
+          },
+          select: {
+            id: true,
+            url: true,
+            altText: true,
+            sortOrder: true,
+            isPrimary: true,
+          },
         },
       },
+    }),
 
-      images: {
-        orderBy: {
-          sortOrder: "asc",
-        },
-      },
+    prisma.product.count({
+      where,
+    }),
+  ]);
+
+  return {
+    items: products,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     },
-  });
+  };
 };
 
 //by id
 
+// export const getProductBySlug = async (slug: string) => {
+//   const product = await prisma.product.findUnique({
+//     where: {
+//       slug,
+//     },
+
+//     include: {
+//       category: {
+//         select: {
+//           id: true,
+//           name: true,
+//           slug: true,
+//         },
+//       },
+
+//       images: {
+//         orderBy: {
+//           sortOrder: "asc",
+//         },
+//       },
+//     },
+//   });
+
+//   if (!product || product.status !== "ACTIVE") {
+//     throw new AppError("Product not found", 404);
+//   }
+
+//   return product;
+// };
 export const getProductBySlug = async (slug: string) => {
+  console.log("🔍 Looking for product slug:", slug);
+
   const product = await prisma.product.findUnique({
     where: {
       slug,
@@ -235,6 +327,17 @@ export const getProductBySlug = async (slug: string) => {
     },
   });
 
+  console.log(
+    "🔍 Product found:",
+    product
+      ? {
+          id: product.id,
+          slug: product.slug,
+          status: product.status,
+        }
+      : null,
+  );
+
   if (!product || product.status !== "ACTIVE") {
     throw new AppError("Product not found", 404);
   }
@@ -243,6 +346,133 @@ export const getProductBySlug = async (slug: string) => {
 };
 
 //for admin
+
+export const getAdminProducts = async ({
+  status,
+  categoryId,
+  featured,
+  search,
+  page = 1,
+  limit = 20,
+}: {
+  status?: "DRAFT" | "ACTIVE" | "ARCHIVED";
+  categoryId?: string;
+  featured?: boolean;
+  search?: string;
+  page?: number;
+  limit?: number;
+}) => {
+  const skip = (page - 1) * limit;
+
+  const where = {
+    ...(status
+      ? {
+          status,
+        }
+      : {}),
+
+    ...(categoryId
+      ? {
+          categoryId,
+        }
+      : {}),
+
+    ...(featured !== undefined
+      ? {
+          isFeatured: featured,
+        }
+      : {}),
+
+    ...(search
+      ? {
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+            {
+              slug: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+          ],
+        }
+      : {}),
+  };
+
+  const [products, total] = await prisma.$transaction([
+    prisma.product.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        status: true,
+        fabric: true,
+        gsm: true,
+        composition: true,
+        washingInfo: true,
+        sizes: true,
+        colors: true,
+        moq: true,
+        customization: true,
+        customFabric: true,
+        customColor: true,
+        customPrinting: true,
+        customEmbroidery: true,
+        customNeckLabel: true,
+        customPackaging: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
+
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+
+        images: {
+          orderBy: {
+            sortOrder: "asc",
+          },
+          select: {
+            id: true,
+            url: true,
+            altText: true,
+            sortOrder: true,
+            isPrimary: true,
+          },
+        },
+      },
+    }),
+
+    prisma.product.count({
+      where,
+    }),
+  ]);
+
+  return {
+    items: products,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};
 
 export const getProductById = async (id: string) => {
   const product = await prisma.product.findUnique({

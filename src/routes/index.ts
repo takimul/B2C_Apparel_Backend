@@ -6,6 +6,7 @@ import productRoutes from "../modules/products/product.routes.js";
 import inquiryRoutes from "../modules/inquiries/inquiry.routes.js";
 import homepageRoutes from "../modules/homepage/homepage.routes.js";
 import settingsRoutes from "../modules/settings/settings.routes.js";
+import aboutRoutes from "../modules/about/about.routes.js";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use("/products", productRoutes);
 router.use("/inquiries", inquiryRoutes);
 router.use("/homepage", homepageRoutes);
 router.use("/settings", settingsRoutes);
+router.use("/about", aboutRoutes);
 
 export default router;

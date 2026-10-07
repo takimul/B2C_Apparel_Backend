@@ -10,6 +10,7 @@ import {
   getProductById,
   updateProduct,
   archiveProduct,
+  getAdminProducts,
 } from "./product.service.js";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
@@ -22,21 +23,43 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
+export const getAdminAll = asyncHandler(async (req: Request, res: Response) => {
+  const result = await getAdminProducts({
+    status: req.query.status as "DRAFT" | "ACTIVE" | "ARCHIVED" | undefined,
+
+    categoryId: req.query.categoryId as string | undefined,
+
+    featured:
+      req.query.featured !== undefined
+        ? req.query.featured === "true"
+        : undefined,
+
+    search: req.query.search as string | undefined,
+
+    page: Number(req.query.page ?? 1),
+    limit: Number(req.query.limit ?? 20),
+  });
+
+  return sendResponse(res, {
+    message: "Admin products fetched successfully",
+    data: result,
+  });
+});
+
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
-  const { categoryId, status, featured, search } = req.query;
+  const { categoryId, featured, search, page, limit } = req.query;
 
   const products = await getProducts({
     categoryId: typeof categoryId === "string" ? categoryId : undefined,
-
-    status:
-      status === "DRAFT" || status === "ACTIVE" || status === "ARCHIVED"
-        ? status
-        : undefined,
 
     featured:
       featured === "true" ? true : featured === "false" ? false : undefined,
 
     search: typeof search === "string" ? search : undefined,
+
+    page: typeof page === "string" ? Number(page) : 1,
+
+    limit: typeof limit === "string" ? Number(limit) : 20,
   });
 
   return sendResponse(res, {

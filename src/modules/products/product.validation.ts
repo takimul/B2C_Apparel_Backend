@@ -128,3 +128,21 @@ export const productSlugSchema = z.object({
 
   query: z.object({}),
 });
+
+export const getAdminProductsSchema = z.object({
+  body: z.object({}),
+  params: z.object({}),
+  query: z.object({
+    status: z.enum(["DRAFT", "ACTIVE", "ARCHIVED"]).optional(),
+
+    categoryId: z.string().cuid().optional(),
+
+    featured: z.enum(["true", "false"]).optional(),
+
+    search: z.string().trim().max(100).optional(),
+
+    page: z.coerce.number().int().positive().default(1),
+
+    limit: z.coerce.number().int().positive().max(100).default(20),
+  }),
+});

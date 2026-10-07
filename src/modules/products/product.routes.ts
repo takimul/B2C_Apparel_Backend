@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   create,
   getAll,
+  getAdminAll,
   getOneById,
   getOneBySlug,
   update,
@@ -18,6 +19,7 @@ import {
   updateProductSchema,
   productIdSchema,
   productSlugSchema,
+  getAdminProductsSchema,
 } from "./product.validation.js";
 
 import {
@@ -38,12 +40,27 @@ const router = Router();
 
 router.get("/", getAll);
 
+router.get(
+  "/admin",
+  requireAuth,
+  requireRole("ADMIN", "SUPER_ADMIN"),
+  validate(getAdminProductsSchema),
+  getAdminAll,
+);
+
 router.get("/slug/:slug", validate(productSlugSchema), getOneBySlug);
+
+/*
+|--------------------------------------------------------------------------
+| Product Images
+|--------------------------------------------------------------------------
+*/
 
 router.post(
   "/:id/images",
   requireAuth,
   requireRole("ADMIN", "SUPER_ADMIN"),
+  validate(productIdSchema),
   uploadImageMiddleware.single("image"),
   uploadImage,
 );

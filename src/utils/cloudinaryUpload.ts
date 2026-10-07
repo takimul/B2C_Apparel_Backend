@@ -13,9 +13,7 @@ export const uploadToCloudinary = async (
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder,
-
         resource_type: "image",
-
         transformation: [
           {
             quality: "auto",
@@ -23,11 +21,9 @@ export const uploadToCloudinary = async (
           },
         ],
       },
-
       (error, result) => {
         if (error || !result) {
           reject(error ?? new Error("Cloudinary upload failed"));
-
           return;
         }
 
@@ -38,7 +34,7 @@ export const uploadToCloudinary = async (
       },
     );
 
-    Readable.from(buffer).pipe(uploadStream);
+    Readable.from([buffer]).pipe(uploadStream);
   });
 };
 

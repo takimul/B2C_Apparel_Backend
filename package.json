@@ -14,7 +14,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "test:api": "newman run tests/postman/Verigo-Essential-API.postman_collection.json -e tests/postman/Verigo-Essential-Local.postman_environment.json"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
@@ -42,6 +43,7 @@
     "@types/multer": "^2.3.0",
     "@types/node": "^26.6.4",
     "@types/pg": "^8.23.1",
+    "newman": "^6.2.2",
     "prisma": "^7.10.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"

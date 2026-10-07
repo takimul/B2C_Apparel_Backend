@@ -1,10 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 
 import { verifyAccessToken } from "../utils/jwt.js";
-
 import { AppError } from "../utils/appError.js";
 
-const COOKIE_NAME = "verigo_access_token";
+export const COOKIE_NAME = "verigo_access_token";
 
 export const requireAuth = (
   req: Request,

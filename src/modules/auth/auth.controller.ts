@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import { prisma } from "../../config/prisma.js";
+import { env } from "../../config/env.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import { AppError } from "../../utils/appError.js";
@@ -11,12 +12,17 @@ const COOKIE_NAME = "verigo_access_token";
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+
+  // Only HTTPS in production.
+  secure: env.NODE_ENV === "production",
+
+  // "none" is required when frontend and API are on different sites.
   sameSite:
-    process.env.NODE_ENV === "production"
-      ? ("none" as const)
-      : ("lax" as const),
+    env.NODE_ENV === "production" ? ("none" as const) : ("lax" as const),
+
+  // Matches the JWT expiration: 7 days.
   maxAge: 7 * 24 * 60 * 60 * 1000,
+
   path: "/",
 };
 

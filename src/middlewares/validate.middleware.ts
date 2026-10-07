@@ -10,9 +10,9 @@ interface ValidationData {
 export const validate = (schema: ZodType): RequestHandler => {
   return (req, _res, next) => {
     const result = schema.safeParse({
-      body: req.body,
-      params: req.params,
-      query: req.query,
+      body: req.body ?? {},
+      params: req.params ?? {},
+      query: req.query ?? {},
     });
 
     if (!result.success) {
