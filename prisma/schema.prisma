@@ -295,8 +295,21 @@ model SiteSettings {
 
     tagline String @default("Premium Apparel & Authentic Beauty")
 
+    /**
+     * | Branding
+     */
+
     logoUrl      String?
     logoPublicId String?
+
+    /**
+     * | Homepage
+     */
+
+    bannerImageUrl      String?
+    bannerImagePublicId String?
+
+    announcementText String?
 
     /**
      * | Contact
@@ -315,12 +328,6 @@ model SiteSettings {
     instagram String?
     linkedin  String?
     youtube   String?
-
-    /**
-     * | Homepage announcement
-     */
-
-    announcementText String?
 
     updatedAt DateTime @updatedAt
 }

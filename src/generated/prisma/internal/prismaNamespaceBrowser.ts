@@ -204,6 +204,9 @@ export const SiteSettingsScalarFieldEnum = {
   tagline: 'tagline',
   logoUrl: 'logoUrl',
   logoPublicId: 'logoPublicId',
+  bannerImageUrl: 'bannerImageUrl',
+  bannerImagePublicId: 'bannerImagePublicId',
+  announcementText: 'announcementText',
   email: 'email',
   phone: 'phone',
   whatsapp: 'whatsapp',
@@ -212,7 +215,6 @@ export const SiteSettingsScalarFieldEnum = {
   instagram: 'instagram',
   linkedin: 'linkedin',
   youtube: 'youtube',
-  announcementText: 'announcementText',
   updatedAt: 'updatedAt'
 } as const
 

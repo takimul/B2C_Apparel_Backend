@@ -9,6 +9,8 @@ import {
   getPublicSettings,
   updateSettings,
   uploadLogo,
+  uploadBannerImage,
+  deleteBannerImage,
 } from "./settings.service.js";
 
 export const getPublic = asyncHandler(async (_req: Request, res: Response) => {
@@ -64,3 +66,32 @@ export const removeLogo = asyncHandler(async (_req: Request, res: Response) => {
     data: settings,
   });
 });
+
+export const uploadBannerController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.file) {
+      return sendResponse(res, {
+        statusCode: 400,
+        message: "Banner image is required",
+      });
+    }
+
+    const settings = await uploadBannerImage(req.file);
+
+    return sendResponse(res, {
+      message: "Homepage banner uploaded successfully",
+      data: settings,
+    });
+  },
+);
+
+export const removeBanner = asyncHandler(
+  async (_req: Request, res: Response) => {
+    const settings = await deleteBannerImage();
+
+    return sendResponse(res, {
+      message: "Homepage banner deleted successfully",
+      data: settings,
+    });
+  },
+);

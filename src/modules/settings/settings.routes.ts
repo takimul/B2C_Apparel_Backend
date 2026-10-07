@@ -11,6 +11,8 @@ import {
   update,
   uploadLogoController,
   removeLogo,
+  uploadBannerController,
+  removeBanner,
 } from "./settings.controller.js";
 
 import { updateSettingsSchema } from "./settings.validation.js";
@@ -65,3 +67,21 @@ router.delete(
 );
 
 export default router;
+
+/**
+ * Homepage banner
+ */
+router.post(
+  "/admin/banner",
+  requireAuth,
+  requireRole("ADMIN", "SUPER_ADMIN"),
+  uploadImage.single("banner"),
+  uploadBannerController,
+);
+
+router.delete(
+  "/admin/banner",
+  requireAuth,
+  requireRole("ADMIN", "SUPER_ADMIN"),
+  removeBanner,
+);

@@ -30,6 +30,9 @@ export type SiteSettingsMinAggregateOutputType = {
   tagline: string | null
   logoUrl: string | null
   logoPublicId: string | null
+  bannerImageUrl: string | null
+  bannerImagePublicId: string | null
+  announcementText: string | null
   email: string | null
   phone: string | null
   whatsapp: string | null
@@ -38,7 +41,6 @@ export type SiteSettingsMinAggregateOutputType = {
   instagram: string | null
   linkedin: string | null
   youtube: string | null
-  announcementText: string | null
   updatedAt: Date | null
 }
 
@@ -48,6 +50,9 @@ export type SiteSettingsMaxAggregateOutputType = {
   tagline: string | null
   logoUrl: string | null
   logoPublicId: string | null
+  bannerImageUrl: string | null
+  bannerImagePublicId: string | null
+  announcementText: string | null
   email: string | null
   phone: string | null
   whatsapp: string | null
@@ -56,7 +61,6 @@ export type SiteSettingsMaxAggregateOutputType = {
   instagram: string | null
   linkedin: string | null
   youtube: string | null
-  announcementText: string | null
   updatedAt: Date | null
 }
 
@@ -66,6 +70,9 @@ export type SiteSettingsCountAggregateOutputType = {
   tagline: number
   logoUrl: number
   logoPublicId: number
+  bannerImageUrl: number
+  bannerImagePublicId: number
+  announcementText: number
   email: number
   phone: number
   whatsapp: number
@@ -74,7 +81,6 @@ export type SiteSettingsCountAggregateOutputType = {
   instagram: number
   linkedin: number
   youtube: number
-  announcementText: number
   updatedAt: number
   _all: number
 }
@@ -86,6 +92,9 @@ export type SiteSettingsMinAggregateInputType = {
   tagline?: true
   logoUrl?: true
   logoPublicId?: true
+  bannerImageUrl?: true
+  bannerImagePublicId?: true
+  announcementText?: true
   email?: true
   phone?: true
   whatsapp?: true
@@ -94,7 +103,6 @@ export type SiteSettingsMinAggregateInputType = {
   instagram?: true
   linkedin?: true
   youtube?: true
-  announcementText?: true
   updatedAt?: true
 }
 
@@ -104,6 +112,9 @@ export type SiteSettingsMaxAggregateInputType = {
   tagline?: true
   logoUrl?: true
   logoPublicId?: true
+  bannerImageUrl?: true
+  bannerImagePublicId?: true
+  announcementText?: true
   email?: true
   phone?: true
   whatsapp?: true
@@ -112,7 +123,6 @@ export type SiteSettingsMaxAggregateInputType = {
   instagram?: true
   linkedin?: true
   youtube?: true
-  announcementText?: true
   updatedAt?: true
 }
 
@@ -122,6 +132,9 @@ export type SiteSettingsCountAggregateInputType = {
   tagline?: true
   logoUrl?: true
   logoPublicId?: true
+  bannerImageUrl?: true
+  bannerImagePublicId?: true
+  announcementText?: true
   email?: true
   phone?: true
   whatsapp?: true
@@ -130,7 +143,6 @@ export type SiteSettingsCountAggregateInputType = {
   instagram?: true
   linkedin?: true
   youtube?: true
-  announcementText?: true
   updatedAt?: true
   _all?: true
 }
@@ -213,6 +225,9 @@ export type SiteSettingsGroupByOutputType = {
   tagline: string
   logoUrl: string | null
   logoPublicId: string | null
+  bannerImageUrl: string | null
+  bannerImagePublicId: string | null
+  announcementText: string | null
   email: string | null
   phone: string | null
   whatsapp: string | null
@@ -221,7 +236,6 @@ export type SiteSettingsGroupByOutputType = {
   instagram: string | null
   linkedin: string | null
   youtube: string | null
-  announcementText: string | null
   updatedAt: Date
   _count: SiteSettingsCountAggregateOutputType | null
   _min: SiteSettingsMinAggregateOutputType | null
@@ -252,6 +266,9 @@ export type SiteSettingsWhereInput = {
   tagline?: Prisma.StringFilter<"SiteSettings"> | string
   logoUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   logoPublicId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  bannerImageUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  bannerImagePublicId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  announcementText?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   email?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   phone?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   whatsapp?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
@@ -260,7 +277,6 @@ export type SiteSettingsWhereInput = {
   instagram?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   linkedin?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   youtube?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
-  announcementText?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }
 
@@ -270,6 +286,9 @@ export type SiteSettingsOrderByWithRelationInput = {
   tagline?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   logoPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerImagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  announcementText?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsapp?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -278,7 +297,6 @@ export type SiteSettingsOrderByWithRelationInput = {
   instagram?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedin?: Prisma.SortOrderInput | Prisma.SortOrder
   youtube?: Prisma.SortOrderInput | Prisma.SortOrder
-  announcementText?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -291,6 +309,9 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   tagline?: Prisma.StringFilter<"SiteSettings"> | string
   logoUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   logoPublicId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  bannerImageUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  bannerImagePublicId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  announcementText?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   email?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   phone?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   whatsapp?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
@@ -299,7 +320,6 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   instagram?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   linkedin?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   youtube?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
-  announcementText?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }, "id">
 
@@ -309,6 +329,9 @@ export type SiteSettingsOrderByWithAggregationInput = {
   tagline?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   logoPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerImagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  announcementText?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsapp?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -317,7 +340,6 @@ export type SiteSettingsOrderByWithAggregationInput = {
   instagram?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedin?: Prisma.SortOrderInput | Prisma.SortOrder
   youtube?: Prisma.SortOrderInput | Prisma.SortOrder
-  announcementText?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteSettingsCountOrderByAggregateInput
   _max?: Prisma.SiteSettingsMaxOrderByAggregateInput
@@ -333,6 +355,9 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   tagline?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   logoPublicId?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  bannerImageUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  bannerImagePublicId?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  announcementText?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   whatsapp?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
@@ -341,7 +366,6 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   instagram?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   linkedin?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   youtube?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
-  announcementText?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
 }
 
@@ -351,6 +375,9 @@ export type SiteSettingsCreateInput = {
   tagline?: string
   logoUrl?: string | null
   logoPublicId?: string | null
+  bannerImageUrl?: string | null
+  bannerImagePublicId?: string | null
+  announcementText?: string | null
   email?: string | null
   phone?: string | null
   whatsapp?: string | null
@@ -359,7 +386,6 @@ export type SiteSettingsCreateInput = {
   instagram?: string | null
   linkedin?: string | null
   youtube?: string | null
-  announcementText?: string | null
   updatedAt?: Date | string
 }
 
@@ -369,6 +395,9 @@ export type SiteSettingsUncheckedCreateInput = {
   tagline?: string
   logoUrl?: string | null
   logoPublicId?: string | null
+  bannerImageUrl?: string | null
+  bannerImagePublicId?: string | null
+  announcementText?: string | null
   email?: string | null
   phone?: string | null
   whatsapp?: string | null
@@ -377,7 +406,6 @@ export type SiteSettingsUncheckedCreateInput = {
   instagram?: string | null
   linkedin?: string | null
   youtube?: string | null
-  announcementText?: string | null
   updatedAt?: Date | string
 }
 
@@ -387,6 +415,9 @@ export type SiteSettingsUpdateInput = {
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -395,7 +426,6 @@ export type SiteSettingsUpdateInput = {
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -405,6 +435,9 @@ export type SiteSettingsUncheckedUpdateInput = {
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,7 +446,6 @@ export type SiteSettingsUncheckedUpdateInput = {
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -423,6 +455,9 @@ export type SiteSettingsCreateManyInput = {
   tagline?: string
   logoUrl?: string | null
   logoPublicId?: string | null
+  bannerImageUrl?: string | null
+  bannerImagePublicId?: string | null
+  announcementText?: string | null
   email?: string | null
   phone?: string | null
   whatsapp?: string | null
@@ -431,7 +466,6 @@ export type SiteSettingsCreateManyInput = {
   instagram?: string | null
   linkedin?: string | null
   youtube?: string | null
-  announcementText?: string | null
   updatedAt?: Date | string
 }
 
@@ -441,6 +475,9 @@ export type SiteSettingsUpdateManyMutationInput = {
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -449,7 +486,6 @@ export type SiteSettingsUpdateManyMutationInput = {
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -459,6 +495,9 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -467,7 +506,6 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   youtube?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  announcementText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -477,6 +515,9 @@ export type SiteSettingsCountOrderByAggregateInput = {
   tagline?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoPublicId?: Prisma.SortOrder
+  bannerImageUrl?: Prisma.SortOrder
+  bannerImagePublicId?: Prisma.SortOrder
+  announcementText?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
@@ -485,7 +526,6 @@ export type SiteSettingsCountOrderByAggregateInput = {
   instagram?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
   youtube?: Prisma.SortOrder
-  announcementText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -495,6 +535,9 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   tagline?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoPublicId?: Prisma.SortOrder
+  bannerImageUrl?: Prisma.SortOrder
+  bannerImagePublicId?: Prisma.SortOrder
+  announcementText?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
@@ -503,7 +546,6 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   instagram?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
   youtube?: Prisma.SortOrder
-  announcementText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -513,6 +555,9 @@ export type SiteSettingsMinOrderByAggregateInput = {
   tagline?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoPublicId?: Prisma.SortOrder
+  bannerImageUrl?: Prisma.SortOrder
+  bannerImagePublicId?: Prisma.SortOrder
+  announcementText?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   whatsapp?: Prisma.SortOrder
@@ -521,7 +566,6 @@ export type SiteSettingsMinOrderByAggregateInput = {
   instagram?: Prisma.SortOrder
   linkedin?: Prisma.SortOrder
   youtube?: Prisma.SortOrder
-  announcementText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -533,6 +577,9 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   tagline?: boolean
   logoUrl?: boolean
   logoPublicId?: boolean
+  bannerImageUrl?: boolean
+  bannerImagePublicId?: boolean
+  announcementText?: boolean
   email?: boolean
   phone?: boolean
   whatsapp?: boolean
@@ -541,7 +588,6 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   instagram?: boolean
   linkedin?: boolean
   youtube?: boolean
-  announcementText?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -551,6 +597,9 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   tagline?: boolean
   logoUrl?: boolean
   logoPublicId?: boolean
+  bannerImageUrl?: boolean
+  bannerImagePublicId?: boolean
+  announcementText?: boolean
   email?: boolean
   phone?: boolean
   whatsapp?: boolean
@@ -559,7 +608,6 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   instagram?: boolean
   linkedin?: boolean
   youtube?: boolean
-  announcementText?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -569,6 +617,9 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   tagline?: boolean
   logoUrl?: boolean
   logoPublicId?: boolean
+  bannerImageUrl?: boolean
+  bannerImagePublicId?: boolean
+  announcementText?: boolean
   email?: boolean
   phone?: boolean
   whatsapp?: boolean
@@ -577,7 +628,6 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   instagram?: boolean
   linkedin?: boolean
   youtube?: boolean
-  announcementText?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -587,6 +637,9 @@ export type SiteSettingsSelectScalar = {
   tagline?: boolean
   logoUrl?: boolean
   logoPublicId?: boolean
+  bannerImageUrl?: boolean
+  bannerImagePublicId?: boolean
+  announcementText?: boolean
   email?: boolean
   phone?: boolean
   whatsapp?: boolean
@@ -595,11 +648,10 @@ export type SiteSettingsSelectScalar = {
   instagram?: boolean
   linkedin?: boolean
   youtube?: boolean
-  announcementText?: boolean
   updatedAt?: boolean
 }
 
-export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "logoPublicId" | "email" | "phone" | "whatsapp" | "address" | "facebook" | "instagram" | "linkedin" | "youtube" | "announcementText" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "logoPublicId" | "bannerImageUrl" | "bannerImagePublicId" | "announcementText" | "email" | "phone" | "whatsapp" | "address" | "facebook" | "instagram" | "linkedin" | "youtube" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
 export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSettings"
@@ -608,8 +660,19 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     siteName: string
     tagline: string
+    /**
+     * *
+     *      * | Branding
+     */
     logoUrl: string | null
     logoPublicId: string | null
+    /**
+     * *
+     *      * | Homepage
+     */
+    bannerImageUrl: string | null
+    bannerImagePublicId: string | null
+    announcementText: string | null
     /**
      * *
      *      * | Contact
@@ -626,11 +689,6 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     instagram: string | null
     linkedin: string | null
     youtube: string | null
-    /**
-     * *
-     *      * | Homepage announcement
-     */
-    announcementText: string | null
     updatedAt: Date
   }, ExtArgs["result"]["siteSettings"]>
   composites: {}
@@ -1060,6 +1118,9 @@ export interface SiteSettingsFieldRefs {
   readonly tagline: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly logoUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly logoPublicId: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly bannerImageUrl: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly bannerImagePublicId: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly announcementText: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly email: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly phone: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly whatsapp: Prisma.FieldRef<"SiteSettings", 'String'>
@@ -1068,7 +1129,6 @@ export interface SiteSettingsFieldRefs {
   readonly instagram: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly linkedin: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly youtube: Prisma.FieldRef<"SiteSettings", 'String'>
-  readonly announcementText: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly updatedAt: Prisma.FieldRef<"SiteSettings", 'DateTime'>
 }
     

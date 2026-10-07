@@ -14,15 +14,21 @@ export const getPublicSettings = async () => {
       id: true,
       siteName: true,
       tagline: true,
+
       logoUrl: true,
+
+      bannerImageUrl: true,
+
       email: true,
       phone: true,
       whatsapp: true,
       address: true,
+
       facebook: true,
       instagram: true,
       linkedin: true,
       youtube: true,
+
       announcementText: true,
       updatedAt: true,
     },
@@ -37,15 +43,21 @@ export const getPublicSettings = async () => {
         id: true,
         siteName: true,
         tagline: true,
+
         logoUrl: true,
+
+        bannerImageUrl: true,
+
         email: true,
         phone: true,
         whatsapp: true,
         address: true,
+
         facebook: true,
         instagram: true,
         linkedin: true,
         youtube: true,
+
         announcementText: true,
         updatedAt: true,
       },
@@ -147,6 +159,60 @@ export const deleteLogo = async () => {
     data: {
       logoUrl: null,
       logoPublicId: null,
+    },
+  });
+};
+
+export const uploadBannerImage = async (file: Express.Multer.File) => {
+  const settings = await getAdminSettings();
+
+  const uploaded = await uploadToCloudinary(
+    file.buffer,
+    "verigo-essential/settings/banner",
+  );
+
+  if (settings.bannerImagePublicId) {
+    try {
+      await deleteFromCloudinary(settings.bannerImagePublicId);
+    } catch (error) {
+      console.error(
+        "Failed to delete previous banner image from Cloudinary:",
+        error,
+      );
+    }
+  }
+
+  return prisma.siteSettings.update({
+    where: {
+      id: "default",
+    },
+    data: {
+      bannerImageUrl: uploaded.url,
+      bannerImagePublicId: uploaded.publicId,
+    },
+  });
+};
+
+export const deleteBannerImage = async () => {
+  const settings = await getAdminSettings();
+
+  if (!settings.bannerImagePublicId) {
+    throw new AppError("No banner image is currently configured", 404);
+  }
+
+  try {
+    await deleteFromCloudinary(settings.bannerImagePublicId);
+  } catch (error) {
+    console.error("Failed to delete banner image from Cloudinary:", error);
+  }
+
+  return prisma.siteSettings.update({
+    where: {
+      id: "default",
+    },
+    data: {
+      bannerImageUrl: null,
+      bannerImagePublicId: null,
     },
   });
 };
