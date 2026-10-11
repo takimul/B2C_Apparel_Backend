@@ -6,6 +6,8 @@ import {
   getOne,
   update,
   remove,
+  uploadImage as uploadCategoryImage,
+  removeImage as removeCategoryImage,
 } from "./category.controller.js";
 
 import { requireAuth } from "../../middlewares/auth.middleware.js";
@@ -17,6 +19,7 @@ import {
   updateCategorySchema,
   categoryIdSchema,
 } from "./category.validation.js";
+import { uploadImage } from "../../middlewares/upload.middleware.js";
 
 const router = Router();
 
@@ -50,6 +53,21 @@ router.patch(
   requireRole("ADMIN", "SUPER_ADMIN"),
   validate(updateCategorySchema),
   update,
+);
+
+router.post(
+  "/:id/image",
+  requireAuth,
+  requireRole("ADMIN", "SUPER_ADMIN"),
+  uploadImage.single("image"),
+  uploadCategoryImage,
+);
+
+router.delete(
+  "/:id/image",
+  requireAuth,
+  requireRole("ADMIN", "SUPER_ADMIN"),
+  removeCategoryImage,
 );
 
 router.delete(

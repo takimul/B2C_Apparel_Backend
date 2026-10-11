@@ -10,6 +10,11 @@ import {
   getCategoryById,
   updateCategory,
 } from "./category.service.js";
+import {
+  uploadCategoryImage,
+  deleteCategoryImage,
+} from "./category-image.service.js";
+import { AppError } from "../../utils/appError.js";
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
   const category = await createCategory(req.body);
@@ -53,5 +58,28 @@ export const remove = asyncHandler(async (req: Request, res: Response) => {
 
   return sendResponse(res, {
     message: "Category deleted successfully",
+  });
+});
+
+export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.file) {
+    throw new AppError("Image file is required", 400);
+  }
+
+  const category = await uploadCategoryImage(req.params.id as string, req.file);
+
+  return sendResponse(res, {
+    statusCode: 201,
+    message: "Category image uploaded successfully",
+    data: category,
+  });
+});
+
+export const removeImage = asyncHandler(async (req: Request, res: Response) => {
+  const category = await deleteCategoryImage(req.params.id as string);
+
+  return sendResponse(res, {
+    message: "Category image removed successfully",
+    data: category,
   });
 });
