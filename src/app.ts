@@ -131,6 +131,35 @@ app.use(
  * Example:
  * CLIENT_URL=https://your-frontend.vercel.app
  */
+// const allowedOrigins = [
+//   env.CLIENT_URL,
+//   "http://localhost:3000",
+//   "http://localhost:3001",
+// ].filter((value): value is string => Boolean(value));
+
+// app.use(
+//   cors({
+//     origin(origin, callback) {
+//       // Allow requests without an Origin header
+//       // such as Postman/server-to-server requests.
+//       if (!origin) {
+//         return callback(null, true);
+//       }
+
+//       if (allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       }
+
+//       return callback(new Error("Origin not allowed by CORS"));
+//     },
+
+//     credentials: true,
+//   }),
+// );
+
+/**
+ * CORS
+ */
 const allowedOrigins = [
   env.CLIENT_URL,
   "http://localhost:3000",
@@ -140,8 +169,8 @@ const allowedOrigins = [
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow requests without an Origin header
-      // such as Postman/server-to-server requests.
+      // Allow requests without an Origin header,
+      // such as Postman or server-to-server requests.
       if (!origin) {
         return callback(null, true);
       }
@@ -154,8 +183,28 @@ app.use(
     },
 
     credentials: true,
+
+    // Explicitly allow PATCH requests.
+    methods: [
+      "GET",
+      "HEAD",
+      "POST",
+      "PATCH",
+      "PUT",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+    ],
+
+    optionsSuccessStatus: 204,
   }),
 );
+
 
 /**
  * Request body limits
