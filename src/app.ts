@@ -278,9 +278,7 @@ app.use(
 
 /**
  * CORS configuration.
- *
- * Include every frontend origin that needs to access the API.
- * Origins must match exactly, including protocol and port.
+ * Keep the frontend origins exact: protocol, hostname, and port.
  */
 const allowedOrigins = new Set(
   [
@@ -294,22 +292,23 @@ const allowedOrigins = new Set(
 
 const corsOptions: cors.CorsOptions = {
   origin(origin, callback) {
-    // Allow requests without an Origin header, such as server-to-server
-    // requests and certain command-line clients.
+    // Permit requests without an Origin header, such as server-to-server
+    // requests and command-line clients.
     if (!origin) {
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
 
     const normalizedOrigin = origin.replace(/\/+$/, "");
 
     if (allowedOrigins.has(normalizedOrigin)) {
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
 
     console.error(`[CORS] Rejected origin: ${origin}`);
-    callback(new Error(`Origin not allowed by CORS: ${origin}`));
+
+    return callback(
+      new Error(`Origin not allowed by CORS: ${origin}`),
+    );
   },
 
   credentials: true,
@@ -325,6 +324,7 @@ const corsOptions: cors.CorsOptions = {
   ],
 
   allowedHeaders: [
+    "Accept",
     "Content-Type",
     "Authorization",
   ],
@@ -332,12 +332,9 @@ const corsOptions: cors.CorsOptions = {
   optionsSuccessStatus: 204,
 };
 
-// Register CORS before routes and rate limiting so preflight requests
-// receive the required CORS headers.
+// CORS must run before body parsers, rate limiting, and API routes.
+// The cors middleware handles OPTIONS preflight requests automatically.
 app.use(cors(corsOptions));
-
-// Explicitly handle preflight requests for all routes.
-app.options(/.*/, cors(corsOptions));
 
 // Parse request bodies.
 app.use(express.json({ limit: "1mb" }));
@@ -352,7 +349,7 @@ app.use(
 // Parse cookies.
 app.use(cookieParser());
 
-// Global rate limiter. CORS preflight requests have already been handled.
+// Global rate limiter.
 app.use(globalRateLimiter);
 
 // Root endpoint.
