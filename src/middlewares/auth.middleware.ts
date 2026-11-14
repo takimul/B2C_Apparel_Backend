@@ -11,7 +11,12 @@ export const requireAuth = (
   next: NextFunction,
 ) => {
   try {
-    const token = req.cookies?.[COOKIE_NAME];
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.slice(7).trim()
+      : undefined;
+
+    const token = req.cookies?.[COOKIE_NAME] || bearerToken;
 
     if (!token) {
       throw new AppError("Authentication required", 401);

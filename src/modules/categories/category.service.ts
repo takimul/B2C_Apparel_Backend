@@ -209,12 +209,14 @@ export const updateCategory = async (id: string, data: UpdateCategoryInput) => {
   });
 };
 
-export const deleteCategory = async (id: string) => {
+export const deleteCategory = async (
+  id: string,
+  options?: { reassignToId?: string; cascade?: boolean },
+) => {
   const category = await prisma.category.findUnique({
     where: {
       id,
     },
-
     include: {
       _count: {
         select: {
@@ -229,15 +231,62 @@ export const deleteCategory = async (id: string) => {
     throw new AppError("Category not found", 404);
   }
 
-  if (category._count.products > 0) {
-    throw new AppError("Cannot delete a category that contains products", 409);
-  }
+  // Handle reassignment if a target category ID is supplied
+  if (options?.reassignToId) {
+    if (options.reassignToId === id) {
+      throw new AppError("Cannot reassign items to the category being deleted", 400);
+    }
 
-  if (category._count.children > 0) {
-    throw new AppError(
-      "Cannot delete a category that contains subcategories",
-      409,
-    );
+    const targetCategory = await prisma.category.findUnique({
+      where: { id: options.reassignToId },
+    });
+
+    if (!targetCategory) {
+      throw new AppError("Target category for reassignment not found", 404);
+    }
+
+    // Move products in this category to the target category
+    await prisma.product.updateMany({
+      where: { categoryId: id },
+      data: { categoryId: options.reassignToId },
+    });
+
+    // Move direct child subcategories to the target category
+    await prisma.category.updateMany({
+      where: { parentId: id },
+      data: { parentId: options.reassignToId },
+    });
+  } else if (options?.cascade) {
+    // Collect all descendant category IDs
+    const descendantIds = await getDescendantIds(id);
+    const allTargetIds = [id, ...descendantIds];
+
+    // Force delete all products in this category and all descendants
+    await prisma.product.deleteMany({
+      where: { categoryId: { in: allTargetIds } },
+    });
+
+    // Force delete descendant categories
+    if (descendantIds.length > 0) {
+      await prisma.category.deleteMany({
+        where: { id: { in: descendantIds } },
+      });
+    }
+  } else {
+    // If not reassigning and not cascading, check if category has products or subcategories
+    if (category._count.products > 0) {
+      throw new AppError(
+        `Cannot delete "${category.name}" because it contains ${category._count.products} product(s). Please move products first or select a category to reassign them to.`,
+        409,
+      );
+    }
+
+    if (category._count.children > 0) {
+      throw new AppError(
+        `Cannot delete "${category.name}" because it contains ${category._count.children} subcategory(ies). Please move or delete subcategories first.`,
+        409,
+      );
+    }
   }
 
   await prisma.category.delete({

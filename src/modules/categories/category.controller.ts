@@ -54,7 +54,15 @@ export const update = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const remove = asyncHandler(async (req: Request, res: Response) => {
-  await deleteCategory(req.params.id as string);
+  const reassignToId = (req.query.reassignToId || req.body?.reassignToId) as
+    | string
+    | undefined;
+  const cascade =
+    req.query.cascade === "true" ||
+    req.query.cascade === "1" ||
+    req.body?.cascade === true;
+
+  await deleteCategory(req.params.id as string, { reassignToId, cascade });
 
   return sendResponse(res, {
     message: "Category deleted successfully",
