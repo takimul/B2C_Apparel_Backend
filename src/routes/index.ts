@@ -8,6 +8,7 @@ import homepageRoutes from "../modules/homepage/homepage.routes.js";
 import settingsRoutes from "../modules/settings/settings.routes.js";
 import aboutRoutes from "../modules/about/about.routes.js";
 import contentRoutes from "../modules/content/content.routes.js";
+import employeeRoutes from "../modules/employees/employee.routes.js";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use("/homepage", homepageRoutes);
 router.use("/settings", settingsRoutes);
 router.use("/about", aboutRoutes);
 router.use("/content", contentRoutes);
+router.use("/employees", employeeRoutes);
 
 export default router;
