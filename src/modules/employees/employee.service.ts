@@ -7,6 +7,7 @@ import {
 export interface EmployeeProfile {
   name: string;
   role: string;
+  badge?: string;
   bio: string;
   email: string;
   phone: string;
@@ -19,6 +20,7 @@ export interface EmployeeProfile {
 const DEFAULT_EMPLOYEE: EmployeeProfile = {
   name: "Md. Managing Director",
   role: "Founder & Head of Global Sourcing",
+  badge: "",
   bio: "With over a decade of hands-on experience across Bangladesh's premier apparel manufacturing units, I founded Verigo Essential to give global brands direct, transparent, and uncompromising access to quality garment production. We operate with zero intermediaries—giving your brand direct factory pricing, stringent multi-point quality audits, and clear, transparent timelines from sample development to final shipment.",
   email: "verigoessential@gmail.com",
   phone: "+880 1918-243120",
